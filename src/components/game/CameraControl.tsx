@@ -44,7 +44,7 @@ export function CameraControl() {
         await video.current.play();
         setStatus("Loading hand tracking…");
         const { FilesetResolver, HandLandmarker } = await import("@mediapipe/tasks-vision");
-        const fs = await FilesetResolver.forVisionTasks("https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/wasm");
+        const fs = await FilesetResolver.forVisionTasks("https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@1.0.1/wasm");
         const lmk = await HandLandmarker.createFromOptions(fs, {
           baseOptions: {
             modelAssetPath:
