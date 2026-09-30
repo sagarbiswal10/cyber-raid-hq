@@ -1,6 +1,6 @@
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Environment, Grid, Lightformer, Line, OrbitControls, Text } from "@react-three/drei";
-import { useMemo, useRef } from "react";
+import { Suspense, useMemo, useRef } from "react";
 import * as THREE from "three";
 import { NETWORK, THREATS } from "@/game/data";
 import { useGame, type NodeState } from "@/game/store";
@@ -204,9 +204,11 @@ export function GameScene() {
       {NETWORK.links.map(([a, b]) => (
         <Link key={`${a}-${b}`} a={a} b={b} />
       ))}
-      {NETWORK.nodes.map((n) => (
-        <NetNodeView key={n.id} i={n.id} />
-      ))}
+      <Suspense fallback={null}>
+        {NETWORK.nodes.map((n) => (
+          <NetNodeView key={n.id} i={n.id} />
+        ))}
+      </Suspense>
       <FirewallDome />
       <Loop />
       <OrbitControls enablePan={false} minDistance={12} maxDistance={32} maxPolarAngle={1.2} target={[0, 0, 1.5]} />
