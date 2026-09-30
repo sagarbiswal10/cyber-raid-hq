@@ -8,3 +8,5 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+# AGENTS
+- Game state lives in a zustand store (src/game/store.ts); scene and HUD subscribe to it. Why: shared per-frame state between R3F and DOM.

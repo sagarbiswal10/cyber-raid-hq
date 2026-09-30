@@ -4,7 +4,7 @@ import { loadLeaderboard, saveScore, useGame, type LeaderEntry } from "@/game/st
 import { setMuted } from "@/game/audio";
 import { cn } from "@/lib/utils";
 
-function Leaderboard({ entries, highlight }: { entries: LeaderEntry[]; highlight?: number }) {
+function Leaderboard({ entries, highlight }: { entries: LeaderEntry[]; highlight?: number | undefined }) {
   return (
     <div className="panel p-4">
       <div className="mb-2 font-display text-sm uppercase tracking-widest text-primary">Leaderboard</div>
