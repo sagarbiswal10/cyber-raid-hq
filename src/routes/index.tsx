@@ -1,24 +1,36 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { GameScene } from "@/components/game/Scene";
+import { HUD } from "@/components/game/HUD";
+import { Menu, Results } from "@/components/game/Screens";
+import { CameraControl } from "@/components/game/CameraControl";
+import { useGame } from "@/game/store";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
-  component: Index,
+  ssr: false,
+  head: () => ({
+    meta: [
+      { title: "Cyber Raid — 3D SOC Defense Game" },
+      { name: "description", content: "Defend a futuristic security operations center from fictional cyberattacks with mouse or hand gestures." },
+      { property: "og:title", content: "Cyber Raid — 3D SOC Defense Game" },
+      { property: "og:description", content: "Investigate, isolate and firewall fictional cyberattacks in a 3D network." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
+  component: Game,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
+function Game() {
+  const phase = useGame((s) => s.phase);
+  const mode = useGame((s) => s.mode);
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
+    <div className="fixed inset-0 overflow-hidden bg-background text-foreground">
+      <GameScene />
+      <div className="scanlines pointer-events-none fixed inset-0 z-[5]" />
+      {phase === "playing" && <HUD />}
+      {phase === "playing" && mode === "camera" && <CameraControl />}
+      {phase === "menu" && <Menu />}
+      {phase === "results" && <Results />}
     </div>
   );
 }
